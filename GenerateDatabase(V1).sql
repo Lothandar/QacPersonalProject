@@ -1,0 +1,6 @@
+Create database if not exists pooldb;
+use pooldb;
+create table if not exists poolplayer (playerID int NOT NULL auto_increment, playerName varchar(70) not null, isBanned boolean not null default false, primary key (playerID));
+create table if not exists poolchamp (champID int not null auto_increment, playerID int not null, defences tinyint not null default 0, nextchallenger int, startDate datetime not null default current_timestamp, primary key (champID), foreign key (playerID) references poolplayer(playerID), foreign key (nextchallenger) references poolplayer(playerID));
+create table if not exists comingmatch (player1 int not null, player2 int not null, foreign key (player1) references poolplayer (playerID) , foreign key (player2) references poolplayer (playerID) , primary key (player1,player2) );
+create table if not exists sevenballed (sevenballedID int not null, gotsevenballed int not null, sevenballer int not null, primary key (sevenballedID) , foreign key (gotsevenballed) references poolplayer(playerID), foreign key (sevenballer) references poolplayer(playerID));
