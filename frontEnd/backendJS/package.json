@@ -1,0 +1,16 @@
+{
+  "name": "backendjs",
+  "version": "1.0.0",
+  "description": "allThe BackendJs in here",
+  "main": "server.js",
+  "scripts": {
+    "test": "console.log('works');",
+    "start": "node server.js"
+  },
+  "author": "me DIO",
+  "license": "ISC",
+  "dependencies": {
+    "mysql2": "^2.0.0",
+    "sequelize": "^5.21.2"
+  }
+}
