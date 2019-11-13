@@ -1,33 +1,23 @@
-const Sequelize = require('sequelize')
+const express = require('express');
+
+const cors = require('cors');
+const playerRouter = require('./routes/player-routes');
+const ChampionRouter = require('./routes/champion-routes');
+const SevenBalledRouter = require('./routes/sevenBalled-routes');
+const matchesRouter = require('./routes/matches-routes');
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/player', playerRouter);
+app.use('/champ', ChampionRouter);
+app.use('/7ball', SevenBalledRouter);
+app.use('/match', matchesRouter);
 
 
-var sequelize = new Sequelize(
-    '******', //database
-    '******', //username
-    '******' ,//password
-    {
-        host: 'localhost',
-        dialect: 'mysql'
-    });
-sequelize
-.authenticate()
-.then(() => {
-    console.log('connected');
-})
-.catch(err => {
-    console.error('EVERYTHING IS ON FIRE', err);
+
+
+app.listen(8080, () => {
+    console.log('server running on port 8080')
 });
-
-const Item = sequelize.define('item', {
-    item: {
-        type: Sequelize.STRING
-    },
-    price: {
-        type: Sequelize.INTEGER
-    },
-    quantity: {
-        type: Sequelize.NUMBER
-    }
-});
-
-Item.sync({force: true});

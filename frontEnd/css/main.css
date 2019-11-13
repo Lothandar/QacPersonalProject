@@ -1,0 +1,4 @@
+body {background-image:url(../assets/background-texture.jpg);}
+#content {
+    background-color: rgba(200, 200, 200, 0.5);
+}
