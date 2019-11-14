@@ -2,8 +2,26 @@ const express = require('express');
 const models = require('../models');
 const router = express.Router();
 
-router.get('/all', async (_req, res) => {
-    const result = await models.Matches.findAll();
+router.get('/all', async (req, res) => {
+    const result = await models.Matches.findAll({
+        include: [{
+            model: MatchPlayer,
+            where: { matchID: Sequelize.col('Matches.matchID') }
+        }]
+    })
+    res.send(result);
+});
+
+router.get('/:id', async (req, res) => {
+    const result = await models.Matches.findAll({
+        where:{
+            matchID: req.params.id
+        },
+        include: [{
+            model: MatchPlayer,
+            where: { matchID: Sequelize.col('Matches.matchID') }
+        }]
+    })
     res.send(result);
 });
 
@@ -14,7 +32,7 @@ router.post('/create', async (req, res) => {
 
 });
 
-router.post('/update', async (req, res) => {
+router.post('/update/:id/:player', async (req, res) => {
     await models.Matches.update({
         player1 : req.body.player2,
         player2 : req.body.player2
@@ -26,15 +44,15 @@ router.post('/update', async (req, res) => {
         }
       );
 });
-router.delete('/clear', async (req, res) => {
-    await models.Matches.destroy();
-});
-
-router.delete('/',async (req, res) => {
+router.delete('/:id',async (req, res) => {
     await models.Matches.destroy({
         where: {
-            player1 : req.query.player1,
-            player2: req.query.player2
+            matchID: req.params.id
+        }
+    });
+    await models.MatchPlayer.destroy({
+        where:{
+            matchID: req.params.id
         }
     });
 });

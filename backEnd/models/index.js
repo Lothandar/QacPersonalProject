@@ -45,6 +45,7 @@ Champion.belongsTo(Player, {foreignKey: 'Champion'});
     Player,
     Matches,
     Champion,
-    SevenBalled
+    SevenBalled,
+    MatchPlayer
   }
 
