@@ -23,12 +23,14 @@ router.post('/create', async (req, res) => {
 
 });
 
-router.put('/:index', (req, res) => {
-    res.send('Not implemented!');
-});
+router.Update('')
 
 router.delete('/:index', (req, res) => {
-    res.send('Not implemented!');
+    await models.Player.destroy({
+        where: {
+            playerID : req.params.index
+        }
+    });
 });
 
 module.exports = router;
