@@ -1,42 +1,71 @@
 const express = require('express');
 const models = require('../models');
+const Sequelize = require('Sequelize')
 const router = express.Router();
 
-router.get('/all', async (_req, res) => {
-    const result = await models.Item.findAll({
-        include: [
-            {
-                model: models.Location
+router.get('/all', async (req, res) => {
+    const result = await models.Champion.findAll();
+    res.send(result);
+});
+router.get('/shame', async (req, res) => {
+    const result = await models.Champion.findAll({
+        include: [{
+            model: models.Player,
+            where: {
+                isBanned: 1
             }
-        ]
+        }],
+        group: ['Champion']
+        });
+    res.send(result);
+});
+
+router.get('/hallOfFame', async (req,res) => {
+    const result = await models.Champion.findAll({
+        order: [['defences', 'DESC']],
+        limit: 10
     });
     res.send(result);
 });
 
-router.get('/:index', async (req, res) => {
-    const [first = null] = await models.Item.findAll({ where: { id: req.params.index } });
+router.get('/notTrueChampion', async (req, res) => {
+    const result = await models.Champion.findAll({
+        include: [{
+            model: models.SevenBalled,
+            where: {
+                gotSevenBalled : Sequelize.col('Champion.Champion')
+            }
+        }]
+    });
+    res.send(result);
+});
+
+router.get('/:id', async (req, res) => {
+    const [first = null] = await models.Champion.findAll({ where: { id: req.params.id } });
     if (first) {
         res.send(first);
     } else {
-        res.status(404).send({ message: 'Item not found for index ' + req.params.index });
+        res.status(404).send({ message: 'Champion not found for index ' + req.params.id });
     }
 });
 
-router.post('', async (req, res) => {
-    try {
-        await models.Item.create(req.body);
-        res.send();
-    } catch (exc) {
-        next(exc);
-    }
+router.post('/create', async (req, res) => {
+
+    await models.Champion.create(req.body);
+    res.send();
+
 });
 
-router.put('/:index', (req, res) => {
-    res.send('Not implemented!');
-});
-
-router.delete('/:index', (req, res) => {
-    res.send('Not implemented!');
+router.post('/update?nextChall?defences?id', async (req, res) => {
+    await models.Champion.update({
+        nextChallenger : req.body.nextChallenger,
+        defences : req.body.defences
+      }, {
+        where: {
+          id : req.body.id
+          }
+        }
+      );
 });
 
 module.exports = router;

@@ -3,40 +3,40 @@ const models = require('../models');
 const router = express.Router();
 
 router.get('/all', async (_req, res) => {
-    const result = await models.Item.findAll({
-        include: [
-            {
-                model: models.Location
-            }
-        ]
-    });
+    const result = await models.Matches.findAll();
     res.send(result);
 });
 
-router.get('/:index', async (req, res) => {
-    const [first = null] = await models.Item.findAll({ where: { id: req.params.index } });
-    if (first) {
-        res.send(first);
-    } else {
-        res.status(404).send({ message: 'Item not found for index ' + req.params.index });
-    }
+router.post('/create', async (req, res) => {
+
+    await models.Matches.create(req.body);
+    res.send();
+
 });
 
-router.post('', async (req, res) => {
-    try {
-        await models.Item.create(req.body);
-        res.send();
-    } catch (exc) {
-        next(exc);
-    }
+router.post('/update', async (req, res) => {
+    await models.Matches.update({
+        player1 : req.body.player2,
+        player2 : req.body.player2
+      }, {
+        where: {
+          player1 : req.body.previous1,
+          player2 : req.body.previous2
+          }
+        }
+      );
+});
+router.delete('/clear', async (req, res) => {
+    await models.Matches.destroy();
 });
 
-router.put('/:index', (req, res) => {
-    res.send('Not implemented!');
-});
-
-router.delete('/:index', (req, res) => {
-    res.send('Not implemented!');
+router.delete('/',async (req, res) => {
+    await models.Matches.destroy({
+        where: {
+            player1 : req.query.player1,
+            player2: req.query.player2
+        }
+    });
 });
 
 module.exports = router;

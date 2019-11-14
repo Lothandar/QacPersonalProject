@@ -2,15 +2,20 @@ const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('poolchamp', {
     defences: {
-        type: Sequelize.TINYINT(4),
+        type: DataTypes.TINYINT(4),
+        allowNull : false,
         required: true,
-        allowNull: false,
-        default: 0
+        defaultValue: 0
     },
+    Champion: {
+        type: DataTypes.INTEGER
+    }
+    ,
     nextChallenger: {
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
     }
 }, {
-    timestamps: false
+    timestamps: false,
+    tableName: "poolchamp"
 });
 };
