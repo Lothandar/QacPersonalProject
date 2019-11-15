@@ -1,14 +1,14 @@
 const express = require('express');
 const models = require('../models');
+const Sequelize = require('Sequelize');
 const router = express.Router();
 
 router.get('/all', async (req, res) => {
     const result = await models.Matches.findAll({
         include: [{
-            model: MatchPlayer,
-            where: { matchID: Sequelize.col('Matches.matchID') }
+            model: models.Player
         }]
-    })
+    });
     res.send(result);
 });
 
@@ -18,28 +18,69 @@ router.get('/:id', async (req, res) => {
             matchID: req.params.id
         },
         include: [{
-            model: MatchPlayer,
-            where: { matchID: Sequelize.col('Matches.matchID') }
+            model: models.MatchPlayer,
+            where:{
+                matchID: req.params.id
+            }
         }]
-    })
+    });
     res.send(result);
 });
 
 router.post('/create', async (req, res) => {
 
-    await models.Matches.create(req.body);
-    res.send();
 
+    if(req.body.match.type == "double"){
+        if(req.body.players.length !=4){
+            console.log("the amount of player doesn't match the match type");
+        }
+        else{
+            await models.Matches.create(req.body.match);
+            for(let player in req.body.players){
+                console.log(player);
+                await models.MatchPlayer.create(req.body.players[player]);
+            }
+        }
+    }
+    else if(req.body.match.type == "killer"){
+        if(req.body.players.length <=3){
+           console.log("the amount of player doesn't match the match type");
+        }        
+        else{
+            await models.Matches.create(req.body.match);
+            for(let player in req.body.players){
+                console.log(player);
+                await models.MatchPlayer.create(req.body.players[player]);
+            }
+        }
+    }
+    else{
+        if(req.body.players.length !=2){
+            //err
+            console.log("the amount of player doesn't match the match type");
+        }
+        else{
+            await models.Matches.create(req.body.match);
+            for(let player in req.body.players){
+                console.log(player);
+                await models.MatchPlayer.create(req.body.players[player]);
+            }
+            
+        }
+    }
+    res.send();
+});
+router.post('/addPlayer/:id/:playerID', async(req, res) =>{
+    await models.MatchPlayer.create({matchID: req.params.id, playerID: req.params.playerID})
 });
 
-router.post('/update/:id/:player', async (req, res) => {
-    await models.Matches.update({
-        player1 : req.body.player2,
-        player2 : req.body.player2
+router.post('/update/:id/:previous/:new', async (req, res) => {
+    await models.MatchPlayer.update({
+        playerID : req.params.new        
       }, {
         where: {
-          player1 : req.body.previous1,
-          player2 : req.body.previous2
+          playerID : req.params.previous,
+          matchID : req.params.id
           }
         }
       );

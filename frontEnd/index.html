@@ -45,12 +45,13 @@
                 <img src="assets/Billard.jpg" class="img-fluid"></img> 
         </div>
         <br>
-        <div class="row">
+        <div class="row" style="margin-top: -45%">
                 <div class="col-sm">
                 </div>
                 <div class="col-sm">
                         <div id="content">
                                 <div id="nextGames">
+                                    <button id="addRow">add row</button>
                                     <table id="gameTable" class="display">
                                     <thead>
                                         <tr>
@@ -60,19 +61,8 @@
                                             <th>Game Type</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>one player</td>
-                                            <td>some player</td>
-                                            <td>classic</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Row 2 Data 1</td>
-                                            <td>Row 2 Data 1</td>
-                                            <td>Row 2 Data 1</td>
-                                            <td>Row 2 Data 2</td>
-                                        </tr>
+                                    <tbody id='tableBody'>
+                                        
                                     </tbody>
                                 </table> </div>
                                 <!-- IMPLEMENT TABLE HERE  -->
@@ -85,10 +75,6 @@
         <div id="footer"></div>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-        <script>
-            $(document).ready( function () {
-            $('#gameTable').DataTable();
-            } );
-    </script>
+<script src="./js/index.js"></script>
     </body>
 </html>

@@ -17,16 +17,25 @@ sequelize
 });
 
 const Player = sequelize.import(__dirname + '/player-model');
+const Winner = sequelize.import(__dirname + '/winner-model');
 const Matches = sequelize.import(__dirname + '/comingmatch-model');
+const SevenBalled = sequelize.import(__dirname + '/sevenballed-model');
 const MatchPlayer = sequelize.import(__dirname + '/matchplayer-model');
 const Champion = sequelize.import(__dirname + '/poolchamp-model');
-const SevenBalled = sequelize.import(__dirname + '/sevenballed-model');
 
 SevenBalled.belongsTo(Player, {foreignKey: 'gotSevenBalled'});
 SevenBalled.belongsTo(Player, {foreignKey: 'sevenBaller'});
 
-MatchPlayer.belongsTo(Matches, {foreignKey: 'matchID'});
-Matches.belongsTo(Player, {foreignKey: 'playerID'});
+
+Player.belongsToMany(Matches, {through: MatchPlayer, foreignKey: 'playerID'});
+Matches.belongsToMany(Player, {through: MatchPlayer, foreignKey: 'matchID'});
+MatchPlayer.hasOne(Matches);
+MatchPlayer.hasOne(Player);
+
+Player.belongsToMany(Matches, {through: Winner, foreignKey: 'winnerID'});
+Matches.belongsToMany(Player, {through: Winner, foreignKey: 'matchID'});
+MatchPlayer.hasOne(Matches);
+MatchPlayer.hasOne(Player);
 
 
 Champion.belongsTo(Player, {foreignKey: 'nextChallenger'});
@@ -35,10 +44,10 @@ Champion.belongsTo(Player, {foreignKey: 'Champion'});
 
 
 
-// sequelize.sync() //remove force true
-//   .then(() => {
-//     console.log(`Database & tables created!`)
-//   })
+ sequelize.sync({force: true}) //remove force true
+  .then(() => {
+   console.log(`Database & tables created!`)
+  });
 
 
   module.exports = {

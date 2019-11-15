@@ -1,16 +1,18 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('matchplayer', {
+    return sequelize.define('winner', {
         matchID: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        playerID: {
+        winnerID: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            validate: {
+                
+            }
         }
     }, {
         timestamps: false,
-        tableName: "matchplayer"
+        tableName: "winner"
     });
 };

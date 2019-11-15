@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('comingmatches', {
-    matchID: {
+        matchID: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true 
     },
     matchType: {
@@ -18,11 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     }
 }, {
     timestamps: false,
-    indexes: [
-        {
-            unique: true,
-            fields: ['player1', 'player2']
-        }
-    ]
+    tableName: "comingmatches"
 });
 };
