@@ -15,6 +15,21 @@ router.get('/all', async (req, res) => {
     res.send(result);
 });
 
+router.get('/not-played', async (req, res) => {
+    const result = await models.Matches.findAll({
+        include: [{
+            model: models.Player
+        },
+        {
+            model: models.Winner
+        }],
+        where: {
+            isPlayed: false
+        }
+    });
+    res.send(result);
+});
+
 router.get('/:id', async (req, res) => {
     const result = await models.Matches.findAll({
         where:{
