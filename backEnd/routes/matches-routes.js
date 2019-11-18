@@ -7,6 +7,9 @@ router.get('/all', async (req, res) => {
     const result = await models.Matches.findAll({
         include: [{
             model: models.Player
+        },
+        {
+            model: models.Winner
         }]
     });
     res.send(result);
@@ -22,7 +25,14 @@ router.get('/:id', async (req, res) => {
             where:{
                 matchID: req.params.id
             }
-        }]
+        },
+        {
+            model: models.Winner,
+            where:{
+                matchID: req.params.id
+            }
+        }
+    ]
     });
     res.send(result);
 });
@@ -86,6 +96,12 @@ router.post('/update/:id/:previous/:new', async (req, res) => {
       );
 });
 router.delete('/:id',async (req, res) => {
+    if (models.Matches.findAll({
+        where: {
+            matchID: req.params.id
+        }
+    }));
+
     await models.Matches.destroy({
         where: {
             matchID: req.params.id

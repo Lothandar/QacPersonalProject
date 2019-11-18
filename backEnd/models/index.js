@@ -33,9 +33,10 @@ MatchPlayer.hasOne(Matches);
 MatchPlayer.hasOne(Player);
 
 Player.belongsToMany(Matches, {through: Winner, foreignKey: 'winnerID'});
+//Winner.belongsTo(MatchPlayer, {foreignKey: 'winnerID', foreignKey: 'matchID'});
 Matches.belongsToMany(Player, {through: Winner, foreignKey: 'matchID'});
-MatchPlayer.hasOne(Matches);
-MatchPlayer.hasOne(Player);
+//Winner.hasOne(Matches);
+//Winner.hasOne(Player);
 
 
 Champion.belongsTo(Player, {foreignKey: 'nextChallenger'});
@@ -55,6 +56,7 @@ Champion.belongsTo(Player, {foreignKey: 'Champion'});
     Matches,
     Champion,
     SevenBalled,
-    MatchPlayer
+    MatchPlayer,
+    Winner
   }
 
