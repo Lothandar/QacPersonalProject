@@ -49,9 +49,30 @@
                 <div class="col-sm">
                 </div>
                 <div class="col-sm">
+                    <button id="switchNewShow">New Player</button>
                         <div id="content">
-                                <div id="nextGames">
+                                <div style="display: none;" id="newGame">
+                                    <form id="addMatchForm">
+                                        <div><label>Player 1:</label><select id="player1"></select></div>
+                                        <div><label>Player 2:</label><select id="player2"></select></div>
+                                        <div style="display:none"><label>Player 3:</label><select id="player3"></select></div>
+                                        <div style="display:none"><label>Player 3:</label><select id="player4"></select></div>
+                                        <button style="display:none" id="morePlayer">add another player</button>
+                                        <div><label>Game Type:</label><select id="gameType">
+                                                <option value="Casual Normal">Casual Normal</option>
+                                                <option value="Ranked Normal">Ranked Normal</option>
+                                                <option value="FOR THE GLORY OF THE CHAMPION">FOR THE GLORY OF THE CHAMPION</option>
+                                                <option value="Reverse Pool|looP esreveR">Reverse Pool|looP esreveR</option>
+                                                <option value="Custom">Custom</option>
+                                                <option value="Killer">Killer</option>
+                                                <option value="Baby Pool">Baby Pool</option>
+                                                <option value="doubles">doubles</option>
+                                        </select></div>
+                                    </form>
                                     <button id="addRow">add row</button>
+                                </div>
+                                <div id="nextGames">
+                                    <h1>Next games</h1>
                                     <table id="gameTable" class="display">
                                     <thead>
                                         <tr>
