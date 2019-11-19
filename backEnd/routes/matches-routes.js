@@ -19,9 +19,6 @@ router.get('/not-played', async (req, res) => {
     const result = await models.Matches.findAll({
         include: [{
             model: models.Player
-        },
-        {
-            model: models.Winner
         }],
         where: {
             isPlayed: false
@@ -105,6 +102,17 @@ router.post('/update/:id/:previous/:new', async (req, res) => {
       }, {
         where: {
           playerID : req.params.previous,
+          matchID : req.params.id
+          }
+        }
+      );
+});
+
+router.post('/play/:id', async (req, res) => {
+    await models.Matches.update({
+        isPlayed : true        
+      }, {
+        where: {
           matchID : req.params.id
           }
         }

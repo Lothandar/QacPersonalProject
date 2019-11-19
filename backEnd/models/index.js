@@ -26,17 +26,18 @@ const Champion = sequelize.import(__dirname + '/poolchamp-model');
 SevenBalled.belongsTo(Player, {foreignKey: 'gotSevenBalled'});
 SevenBalled.belongsTo(Player, {foreignKey: 'sevenBaller'});
 
-
-Player.belongsToMany(Matches, {through: MatchPlayer, foreignKey: 'playerID'});
-Matches.belongsToMany(Player, {through: MatchPlayer, foreignKey: 'matchID'});
-MatchPlayer.hasOne(Matches);
-MatchPlayer.hasOne(Player);
-
 Player.belongsToMany(Matches, {through: Winner, foreignKey: 'winnerID'});
 //Winner.belongsTo(MatchPlayer, {foreignKey: 'winnerID', foreignKey: 'matchID'});
 Matches.belongsToMany(Player, {through: Winner, foreignKey: 'matchID'});
 //Winner.hasOne(Matches);
 //Winner.hasOne(Player);
+
+
+Player.belongsToMany(Matches, {through: MatchPlayer, foreignKey: 'playerID'});
+Matches.belongsToMany(Player, {through: MatchPlayer, foreignKey: 'matchID'});
+//MatchPlayer.hasOne(Matches);
+//MatchPlayer.hasOne(Player);
+
 
 
 Champion.belongsTo(Player, {foreignKey: 'nextChallenger'});

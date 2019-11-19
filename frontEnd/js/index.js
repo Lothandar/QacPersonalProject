@@ -14,27 +14,73 @@ function switchDiv() {
       y.style.display = "block";
     }
   }
-document.getElementById("gameType").addEventListener("change", OnChangeCheck());
+  let gametypeSelect = document.getElementById("gameType");
+
 
 function OnChangeCheck(){
-    console.log(document.getElementById("gameType").value);
-    if(document.getElementById("gameType").value == "Killer"){
+    console.log(gametypeSelect.value);
+    if(gametypeSelect.value == "Killer"){
         document.getElementById("morePlayer").style.display = "block";
+        document.getElementById("player3Div").style.display = "block";
+        document.getElementById("player4Div").style.display = "block";
+    }
+    else if(gametypeSelect.value =="Doubles"){
+        document.getElementById("player3Div").style.display = "block";
+        document.getElementById("player4Div").style.display = "block";
+        document.getElementById("morePlayer").style.display = "none";
     }
     else{
         document.getElementById("morePlayer").style.display = "none";
+        document.getElementById("player3Div").style.display = "none";
+        document.getElementById("player4Div").style.display = "none";
     }
 }
 
 
 var t =$('#gameTable').DataTable();
+
+$('#gameTable tbody').on( 'click', 'tr', function () {
+    if ( $(this).hasClass('selected') ) {
+        $(this).removeClass('selected');
+    }
+    else {
+        t.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+    }
+} );
+
+$('#deleteButton').click( function () { 
+    console.log(t.row('.selected').data()[0]);
+    id=t.row('.selected').data()[0];
+    //Delete function here
+    fetch('http://localhost:8080/match/'+id, {
+        method: 'DELETE'//,
+        //body: JSON.stringify({ 
+            //match: {matchType: something.value}, players:[playerArray] }),
+            //headers: { "Accept": "application/json;charset=UTF-8" }
+        }).then(t.row('.selected').remove().draw( false ))
+    //.then(result => result.json())
+    //.then(res => printallMatches(res))
+    .catch(err => console.log(err));
+
+
+} );
+
 function printallMatches(json)
 {
     console.log(json);
     for(let j of json){
         let id = j.matchID;
-        let first_Player =j.poolplayers[0].playerName;
-        let second_Player = j.poolplayers[1].playerName;
+        let first_Player;
+        let second_Player;
+        if(j.poolplayers[0]){
+        first_Player =j.poolplayers[0].playerName;
+        second_Player = j.poolplayers[1].playerName;
+        }
+        else{
+        first_Player ="No Player";
+        second_Player ="No Player";
+        }
         let matchType = j.matchType;
         let isPlayed = false;
         t.row.add( [
@@ -42,18 +88,29 @@ function printallMatches(json)
             first_Player,
             second_Player,
             matchType,
-            'Played: + <input type="checkbox" onclick="Played()"></input>'
+            'Played: + <input type="checkbox" onclick="Played('+id+')"></input>'
         ]).draw( false );
     }
 }
+
+function Played(id){
+    console.log("should be played");
+    fetch('http://localhost:8080/match/play/'+id, {
+        method: 'POST'})
+        .then(t.row('.selected').remove().draw( false ))
+        .catch(err=> console.log(err));
+}
+
 let addRow = document.getElementById("addRow");
 addRow.addEventListener("click", () => AddingMatch());
 function AddingMatch() {
-    playerArray= []
+    playerArray= [document.getElementById("player1").value, document.getElementById("player2").value]
     fetch('http://localhost:8080/match/create', {
         method: 'POST',
         body: JSON.stringify({ 
-            match: {matchType: something.value}, players:[playerArray] }),
+            match: {
+                matchType: document.getElementById("gametypeSelect").value},
+                 players:[playerArray] }),
             //headers: { "Accept": "application/json;charset=UTF-8" }
         })
     .then(result => result.json())
@@ -68,15 +125,27 @@ function addAnotherPlayer(){
 }
 
 function createPlayerSelect(json){
+    console.log(json);
+    if(json.length !=0)
+    {
     let player1 = document.getElementById("player1");
     let option = document.createElement("option");
         option.value = null;
         option.innerText = "Select A player";
+    player1.appendChild(option);
     for(let j of json){
         option = document.createElement("option");
         option.value = j.playerID;
         option.innerText = j.playerName;
         player1.appendChild(option);
+    }
+    }
+    else{
+        let option = document.createElement("option");
+        option.value = null;
+        option.innerText = "No Player To Display";
+        player1.appendChild(option);
+        document.getElementById("addRow").disabled = true;
     }
     document.getElementById("player2").innerHTML = player1.innerHTML;
 }
