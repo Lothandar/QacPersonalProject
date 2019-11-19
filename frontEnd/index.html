@@ -53,11 +53,13 @@
                         <div id="content">
                                 <div style="display: none;" id="newGame">
                                     <form id="addMatchForm">
+                                        <div id="playerAddList">
                                         <div><label>Player 1:</label><select id="player1"></select></div>
                                         <div><label>Player 2:</label><select id="player2"></select></div>
                                         <div style="display:none" id="player3Div"><label>Player 3:</label><select id="player3"></select></div>
                                         <div style="display:none" id="player4Div"><label>Player 3:</label><select id="player4"></select></div>
-                                        <button style="display:none" id="morePlayer">add another player</button>
+                                        </div>
+                                        <button type="button" style="display:none" id="morePlayer">add another player</button>
                                         <div><label>Game Type:</label><select id="gameType" onchange="OnChangeCheck()">
                                                 <option value="Casual Normal">Casual Normal</option>
                                                 <option value="Ranked Normal">Ranked Normal</option>

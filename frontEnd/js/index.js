@@ -1,5 +1,5 @@
 let switchNewShow = document.getElementById("switchNewShow");
-let playercount = 2;
+let playercount = 4;
 switchNewShow.addEventListener("click", () => switchDiv());
 function switchDiv() {
     var x = document.getElementById("newGame");
@@ -16,6 +16,21 @@ function switchDiv() {
   }
   let gametypeSelect = document.getElementById("gameType");
 
+let morePlayer = document.getElementById("morePlayer");
+morePlayer.addEventListener("click", () => addMorePlayer());
+
+function addMorePlayer(){
+    playercount++;
+    let playerList = document.getElementById("playerAddList");
+    let newPlayerDiv = document.createElement("div");
+    let newPlayerLabel = document.createElement("label");
+    let newPlayerSelect = document.createElement("select");
+    newPlayerLabel.innerText= "Player "+ playercount+":";
+    newPlayerSelect.innerHTML = document.getElementById("player1").innerHTML;
+    playerList.appendChild(newPlayerDiv);
+    newPlayerDiv.appendChild(newPlayerLabel);
+    newPlayerDiv.appendChild(newPlayerSelect);
+}
 
 function OnChangeCheck(){
     console.log(gametypeSelect.value);
@@ -25,6 +40,8 @@ function OnChangeCheck(){
         document.getElementById("player4Div").style.display = "block";
     }
     else if(gametypeSelect.value =="Doubles"){
+        let array = document.getElementById("playerList");
+        array.childElementCount;
         document.getElementById("player3Div").style.display = "block";
         document.getElementById("player4Div").style.display = "block";
         document.getElementById("morePlayer").style.display = "none";
@@ -148,6 +165,8 @@ function createPlayerSelect(json){
         document.getElementById("addRow").disabled = true;
     }
     document.getElementById("player2").innerHTML = player1.innerHTML;
+    document.getElementById("player3").innerHTML = player1.innerHTML;
+    document.getElementById("player4").innerHTML = player1.innerHTML;
 }
 
 $(document).ready( function () {
