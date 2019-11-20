@@ -3,6 +3,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
     </head>
     <body>
         <div id="header">
@@ -41,24 +45,44 @@
             </nav>
         <img src="assets/Billard.jpg" class="img-fluid"></img> 
         </div>
-        <div class="row">
-                <div class="col-sm">
-                </div>
-                <div class="col-sm">
-                    <button> Add Player </button>
-                    <button> Show Players </button>
-                    <button> Show Player banned </button>
+        <div class="row" style="margin-top: -45%">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+                <button id="switchNewShow">New Player</button>
                     <div id="content">
-                            
-                                <!-- IMPLEMENT TABLE HERE  -->
-                        </div>
-                </div>
-                <div class="col-sm">
-                </div>
-              </div>
-        <div id="footer"></div>
-               <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript" src="js/player.js"></script>
-    </body>
+                            <div style="display: none;" id="newPlayer">
+                                <form id="addPlayerForm">
+                                    <div><label>Player Name:</label><input id="playerName" type="text"></input></div>
+                                    <div><label>Player Photo:</label><button type="Button">Not Implemented</button></div>
+                                </form>
+                                <button id="addRow">create Player</button>
+                            </div>
+                            <div id="all_Player">
+                                <h1>All players</h1> <button id="deleteButton">Delete Player</button>
+                                <table id="playerTable" class="display">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Photo</th>
+                                        <th>Is Banned</th>
+                                    </tr>
+                                </thead>
+                                <tbody id='tableBody'>
+                                    
+                                </tbody>
+                            </table> </div>
+                            <!-- IMPLEMENT TABLE HERE  -->
+                    </div>
+            </div>
+            <div class="col-sm">
+            </div>
+          </div>
+    
+    <div id="footer"></div>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+<script src="./js/player.js"></script>
+</body>
 </html>

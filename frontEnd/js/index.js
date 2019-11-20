@@ -35,18 +35,29 @@ function addMorePlayer(){
 function OnChangeCheck(){
     console.log(gametypeSelect.value);
     if(gametypeSelect.value == "Killer"){
+        let array = document.getElementById("playerAddList");
+        console.log(array.childElementCount);
+        for(let index = 2; index < array.childElementCount; index++){
+            array.children[index].style.display ="block";
+        }
         document.getElementById("morePlayer").style.display = "block";
         document.getElementById("player3Div").style.display = "block";
         document.getElementById("player4Div").style.display = "block";
     }
     else if(gametypeSelect.value =="Doubles"){
-        let array = document.getElementById("playerList");
-        array.childElementCount;
+        let array = document.getElementById("playerAddList");
+        for(let index = 2; index < array.childElementCount; index++){
+            array.children[index].style.display ="none";
+        }
         document.getElementById("player3Div").style.display = "block";
         document.getElementById("player4Div").style.display = "block";
         document.getElementById("morePlayer").style.display = "none";
     }
     else{
+        let array = document.getElementById("playerAddList");
+        for(let index = 2; index < array.childElementCount; index++){
+            array.children[index].style.display ="none";
+        }
         document.getElementById("morePlayer").style.display = "none";
         document.getElementById("player3Div").style.display = "none";
         document.getElementById("player4Div").style.display = "none";
