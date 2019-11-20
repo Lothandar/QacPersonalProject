@@ -49,7 +49,14 @@ function printallPlayers(json)
     for(let j of json){
         let id = j.playerID;
         let playerName = j.playerName;
-        let photo = j.photo;
+        let photo;
+        if(j.photo != null)
+        {
+        photo = j.photo;
+        }
+        else{
+            photo = "none";
+        }
         let isBanned = j.isBanned;
         t.row.add( [
             id,
@@ -64,16 +71,18 @@ let addRow = document.getElementById("addRow");
 addRow.addEventListener("click", () => AddingPlayer());
 
 function AddingPlayer() {
-    console.log("creating player" + document.getElementById("playerName").value);
-            playerName = document.getElementById("playerName").value;
+    console.log("creating player :" + document.getElementById("playerName").value);
+           let playerName = document.getElementById("playerName").value;
+           console.log(playerName);
+           console.log(JSON.stringify({ 'playerName' : playerName}));
         fetch('http://localhost:8080/player/create', {
         method: 'POST',
-        body: JSON.stringify({ 
-                "playerName": playerName
+        body: JSON.stringify(
+            { 
+            playerName : playerName
             //headers: { "Accept": "application/json;charset=UTF-8" }
-        })})
-    .then(result => result.json())
-    .then(res => printallMatches(res))
+            }
+        )})
     .catch(err => console.log(err));
 }
 

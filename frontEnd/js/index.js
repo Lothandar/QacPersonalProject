@@ -137,13 +137,10 @@ function AddingMatch() {
         method: 'POST',
         body: JSON.stringify({ 
             match: {
-                matchType: document.getElementById("gametypeSelect").value},
-                 players:[playerArray] }),
+                matchType: gametypeSelect.value},
+            players:[playerArray] }),
             //headers: { "Accept": "application/json;charset=UTF-8" }
-        })
-    .then(result => result.json())
-    .then(res => printallMatches(res))
-    .catch(err => console.log(err));
+        }).catch(err => console.log(err));
 }
 function addAnotherPlayer(){
     let form = document.getElementById("addMatchForm");

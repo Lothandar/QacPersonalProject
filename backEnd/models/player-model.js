@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     playerName: {
         type: DataTypes.STRING,
-        allowNull : false,
+        //allowNull : false,
         required: true
     },
     Elo: {

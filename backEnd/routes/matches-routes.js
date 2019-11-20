@@ -15,6 +15,12 @@ router.get('/all', async (req, res) => {
     res.send(result);
 });
 
+router.get('/biggestID', async (req, res)=>{
+    const result = await models.Matches.findAll({
+        attributes:[[sequelize.fn('max', sequelize.col('matchID')),'max']]
+    })
+})
+
 router.get('/not-played', async (req, res) => {
     const result = await models.Matches.findAll({
         include: [{
